@@ -5,7 +5,7 @@ let StateMovement = {
     this.load.image('bkgPurple', 'img/purple.png');
     this.load.image('ufoGreen', 'img/ufoGreen.png');
     this.load.image('ufoRed', 'img/ufoRed.png');
-    var imageKeys = [
+    const imageKeys = [
       'arrowDown',
       'arrowLeft',
       'arrowRight',
@@ -15,7 +15,7 @@ let StateMovement = {
       'arrowRightW',
       'arrowUpW' 
     ];
-    var imageUrls = [
+    const imageUrls = [
       'img/arrowDown.png',
       'img/arrowLeft.png',
       'img/arrowRight.png',
@@ -56,14 +56,17 @@ let StateMovement = {
     this.textSpeed.align = 'center';
     this.player.addChild(this.textSpeed);
     this.textSpeed.visible = false;
-    // this.player.kill();
+
+    this.player.kill();
+    this.killArrows();
 
     this.keyboard = this.input.keyboard;
     this.player.direction = new Phaser.Point();
 
     this.enemy = this.add.image(0, this.world.centerY, 'ufoRed');
     this.enemy.anchor.set(0, 0.5);
-    this.enemy.amplitude = 100;
+    this.enemy.amplitude = 200;
+    this.enemy.timeMultiplier = 4;
     this.enemy.speed = 400;
     this.enemy.kill();
 
@@ -82,13 +85,19 @@ let StateMovement = {
     this.movePlayer();
 
     // Recalculate speed
-    this.computeSpeed();
-    
+    // this.computeSpeed();
 
     // AUTOMATIC MOVEMENT
     // this.enemyMovement();
 
 
+  },
+  killArrows: function() {
+    let i;
+    for (i = 0; i < this.arrowBlack.length; i++) {
+      this.arrowBlack[i].kill();
+      this.arrowWhite[i].kill();
+    }
   },
   handleArrows: function() {
     let i;
@@ -137,15 +146,20 @@ let StateMovement = {
     let dist = Phaser.Point.distance(this.player.position, this.player.previousPosition, true);
     this.textSpeed.text = dist;
   },
-  // enemyMovement: function() {
+  enemyMovement: function() {
 
-  //   if (!this.enemy.alive) return;
+    if (!this.enemy.alive) return;
 
-  //   this.enemy.x += this.enemy.speed * this.time.physicsElapsed;
-  //   this.enemy.y = this.world.centerX;
+    this.enemy.x += this.enemy.speed * this.time.physicsElapsed;
+    this.enemy.y = this.world.centerY;
+    this.enemy.y += Math.sin(this.time.totalElapsedSeconds() * this.enemy.timeMultiplier) * this.enemy.amplitude;
 
-  //   if (this.enemy.x > this.world.width) {
-  //     this.enemy.x = - this.enemy.width;
-  //   }
-  // }
+    
+    
+    
+    
+    if (this.enemy.x > this.world.width) {
+      this.enemy.x = -this.enemy.width;
+    }
+  }
 };
