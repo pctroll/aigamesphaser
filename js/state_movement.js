@@ -55,18 +55,18 @@ let StateMovement = {
     this.textSpeed.anchor.set(0.5);
     this.textSpeed.align = 'center';
     this.player.addChild(this.textSpeed);
-    this.textSpeed.visible = false;
+    // this.textSpeed.visible = false;
 
-    this.player.kill();
-    this.killArrows();
+    // this.player.kill();
+    // this.killArrows();
 
     this.keyboard = this.input.keyboard;
     this.player.direction = new Phaser.Point();
 
     this.enemy = this.add.image(0, this.world.centerY, 'ufoRed');
     this.enemy.anchor.set(0, 0.5);
-    this.enemy.amplitude = 200;
-    this.enemy.timeMultiplier = 4;
+    this.enemy.amplitude = 600;
+    this.enemy.timeMultiplier = 6;
     this.enemy.speed = 400;
     this.enemy.kill();
 
@@ -85,7 +85,7 @@ let StateMovement = {
     this.movePlayer();
 
     // Recalculate speed
-    // this.computeSpeed();
+    this.computeSpeed();
 
     // AUTOMATIC MOVEMENT
     // this.enemyMovement();
@@ -160,6 +160,7 @@ let StateMovement = {
     
     if (this.enemy.x > this.world.width) {
       this.enemy.x = -this.enemy.width;
+      // this.enemy.y = Math.random() * this.world.height;
     }
   }
 };

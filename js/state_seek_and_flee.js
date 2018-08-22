@@ -10,8 +10,8 @@ let StateSeekFlee = {
     this.background = this.add.tileSprite(0, 0, this.world.width, this.world.height, 'bkgPurple');
     this.enemy = this.add.image(this.world.centerX, this.world.centerY, 'ufoRed');
     this.enemy.anchor.set(0.5, 0.5);
-    this.enemy.speed = 500;
-    this.targetRadius = 200;
+    this.enemy.speed = 300;
+    this.targetRadius = 100;
 
     this.player = this.add.image(this.world.centerX, this.world.centerY, 'ufoGreen');
     this.player.anchor.set(0.5, 0.5);
@@ -31,14 +31,27 @@ let StateSeekFlee = {
 
     // SEEK
     direction = Phaser.Point.subtract(this.player.position, this.enemy.position);
+
+    
     // FLEE
     // direction = Phaser.Point.subtract(this.enemy.position, this.player.position);
-
+    
     let distance = direction.getMagnitude();
     if (distance < this.targetRadius) return;
     direction.normalize();
     this.enemy.x += direction.x * this.enemy.speed * this.time.physicsElapsed;
     this.enemy.y += direction.y * this.enemy.speed * this.time.physicsElapsed;
+    
+
+
+
+
+
+
+
+
+
+
 
   },
   onMouseDown: function(pointer) {
